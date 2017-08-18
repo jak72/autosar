@@ -16,7 +16,7 @@ class PackageWriter(WriterBase):
       self.componentTypeWriter = ComponentTypeWriter(version)
       self.behaviorWriter = BehaviorWriter(version)
       self.portInterfaceWriter = PortInterfaceWriter(version)
-      if self.version >= 3.0:
+      if (self.version >= 3.0) and (self.version < 4.0):
          self.switcherXML = {'ArrayDataType': self.dataTypeWriter.writeArrayDataTypeXml,
                           'BooleanDataType': self.dataTypeWriter.writeBooleanDataTypeXml,
                           'IntegerDataType': self.dataTypeWriter.writeIntegerTypeXML,
@@ -65,6 +65,9 @@ class PackageWriter(WriterBase):
                           'SYSTEM-SIGNAL': None,
                           'SYSTEM': None
                           }
+      elif self.version >= 4.0:
+         self.switcherXML = {'DataConstraint': self.dataTypeWriter.writeDataConstraintXml}
+         self.switcherCode = {'DataConstraint': self.dataTypeWriter.writeDataConstraintCode}
       else:
          raise NotImplementedError("AUTOSAR version not yet supported")
    
